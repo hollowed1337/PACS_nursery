@@ -21,16 +21,16 @@ jobs:
       - name: Set-up python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
         # Устанавливаем зависемости
       - name: Install dependencies
-        run: pip install -r req.txt
+        run: pip install -r requirements.txt
         # Запускаем тесты
       - name: Run tests
-        # run: pytest
+        #run: pytest
         # Для успешного запуска тестов необходимо в переменную окружения DATABASE_URL записать корректную строку подключения к любой БД
         env:
-          DATABASE_URL: postgresql://polienko:dasohdioh1nkz@database:5432/nursery
+          DATABASE_URL: sqlite:///./sqlite.db
   # Задача развертывания
   deploy:
     name: Deploy to server
@@ -61,6 +61,8 @@ jobs:
           DB_NAME=${{ secrets.DB_NAME }}
           END
         # Отправляем файлы проекта на сервер
+      - name: Test ssh
+        run: ssh yandex_server 'echo hello'
       - name: Rsync files to server
         run: rsync -rav * yandex_server:~/project
         # Отправляем файл .env на сервер
