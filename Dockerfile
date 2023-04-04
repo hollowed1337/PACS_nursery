@@ -1,5 +1,5 @@
 # Указываем базовый образ
-FROM python:3.9
+FROM python:3.10
 # Указываем автора данного образа
 LABEL maintainer="saha011p@gmail.com"
 # Указываем директорию /code в качестве рабочей.
