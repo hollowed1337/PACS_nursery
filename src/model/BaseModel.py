@@ -54,7 +54,8 @@ class Role(BaseModel):
 
 #4
 class Child(BaseModel):
-    __tablename__ = "childs"
+    __tablename__ = "kids
+    "
     __table_args__ = (
         CheckConstraint('group_id > 0'),
     )
@@ -140,7 +141,7 @@ class People_Child(BaseModel):
         CheckConstraint('child_id > 0'),
         CheckConstraint('people_id > 0'),
     )
-    child_id = Column(Integer, ForeignKey("childs.id"))
+    child_id = Column(Integer, ForeignKey("kids.id"))
     people_id = Column(Integer, ForeignKey("peoples.id"))
 
     child = relationship("Child", back_populates="people_ch")
