@@ -32,6 +32,8 @@ services:
     # Указываем, что контейнер должен прослушивать порт 5432
     expose:
       - 5432
+    ports:
+      - "5432:5432"
     # Задаем переменные окружения для PosgtgreSQL
     environment:
       POSTGRES_USER: ${DB_USER}
