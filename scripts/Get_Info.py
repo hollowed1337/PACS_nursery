@@ -1,10 +1,6 @@
 import psycopg2
 from psycopg2.extras import NamedTupleCursor
 from datetime import datetime
-DB_NAME='nursery'
-DB_USER='polienko'
-DB_PASSWD='dasohdioh1nkz'
-
 
 #conn = psycopg2.connect('postgresql://${DB_USER}:${DB_PASSWD}@91.240.84.44:5432/${DB_NAME}')
 
