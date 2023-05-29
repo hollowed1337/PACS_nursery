@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import NamedTupleCursor
 from datetime import datetime
 
-#conn = psycopg2.connect('postgresql://${DB_USER}:${DB_PASSWD}@91.240.84.44:5432/${DB_NAME}')
+#conn = psycopg2.connect('postgresql://${DB_USER}:${DB_PASSWD}localhost:5432/${DB_NAME}')
 
 try:
     conn = psycopg2.connect(dbname='postgres', user='postgres', password='qwe', host='localhost')
