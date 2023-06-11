@@ -144,7 +144,7 @@ class People_Child(BaseModel):
         CheckConstraint('child_id > 0'),
         CheckConstraint('people_id > 0'),
     )
-    child_id = Column(Integer, ForeignKey("kids.id"))
+    child_id = Column(Integer, ForeignKey("childs.id"))
     people_id = Column(Integer, ForeignKey("peoples.id"))
 
     child = relationship("Child", back_populates="people_ch")
