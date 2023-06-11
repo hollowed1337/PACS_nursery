@@ -1,16 +1,16 @@
 from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime
 
 
 class LogBase(BaseModel):
 
-    id_reader: int
-    id_card: int
+    id_reader: Optional[int]
+    id_card: Optional[int]
 
 
-
-# class LogCreate(LogBase):
-#     pass
+#class LogCreate(LogBase):
+#    pass
 
 
 # class LogUpdate(BaseModel):

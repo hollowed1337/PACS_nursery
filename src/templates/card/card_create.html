@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+  
+        let card = {
+            code: document.getElementById("card_code").value,
+            status: document.getElementById("status").value,
+            people_id: document.getElementById("people_id").value
+        };
+        let response = fetch(`/card`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(card)
+        });
+
+
+        window.location.href = `/pages/cards`
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Код <input id="card_code" type="text" class="text-lg" maxlength="8" placeholder="AABBCCDD"></a>
+        <a>Статус<select id="status">
+            <option>False</option>
+            <option>True</option>
+        </select></a>
+        <a>Владелец<select id="people_id">
+            {% for people in peoples%}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/cards">Отмена</a></td>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

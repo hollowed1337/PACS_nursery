@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const GetPeoples = () => {
+        window.location.href = `/pages/peoples`;
+    }
+    const GetRoles = () => {
+        window.location.href = `/pages/roles`;
+    }
+    const GetReaders = () => {
+        window.location.href = `/pages/readers`;
+    }
+    const GetPeople_Ch = () => {
+        window.location.href = `/pages/people_chs`;
+    }
+    const GetPeople_G = () => {
+        window.location.href = `/pages/people_gs`;
+    }
+    const GetPeople_D = () => {
+        window.location.href = `/pages/people_ds`;
+    }
+    const GetCard = () => {
+        window.location.href = `/pages/cards`;
+    }
+    const GetDoors = () => {
+        window.location.href = `/pages/doors`;
+    }
+    const GetGroups = () => {
+        window.location.href = `/pages/groups`;
+    }
+    const GetKids = () => {
+        window.location.href = `/pages/kids`;
+    }
+    const GetCabinets = () => {
+        window.location.href = `/pages/cabinets`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    <div class="flex my-3 gap-5">
+        <td><button onclick="GetPeoples()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок людей</button></td>
+        <td><button onclick="GetKids()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок детей</button></td>
+        <td><button onclick="GetCabinets()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок кабинетов</button></td>
+    </div>
+    <div class="flex my-3 gap-5">
+        <button onclick="GetRoles()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок ролей</button>
+        <button onclick="GetGroups()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок групп</button>
+        <button onclick="GetCard()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок карт допуска</button>
+    </div>
+    <div>
+        <button onclick="GetDoors()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок дверей</button>
+        <button onclick="GetReaders()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок считывателей</button>
+    </div>
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" %}
+    <div class="flex my-3 gap-5">
+        <button onclick="GetPeople_D()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок человек-дверь</button>
+        <button onclick="GetPeople_G()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок человек-группа</button>
+        <button onclick="GetPeople_Ch()" class="border-2 rounded-3xl bg-gray-300 p-3">Cписок человек-ребенок</button>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

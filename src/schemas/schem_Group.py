@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from src.schemas import schem_Child
 
 class GroupBase(BaseModel):
 

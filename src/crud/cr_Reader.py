@@ -9,7 +9,10 @@ def create_reader(db: Session, reader: schem_Reader.ReaderCreate):
     db.add(db_reader)
     db.commit()
     db.refresh(db_reader)
-    return db_reader
+    return {
+        "status": "Успешно создано",
+        "data": db_reader
+        }
 
 
 def get_reader(db: Session, reader_id: int):

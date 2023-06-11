@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    <span>Список кабинетов</span>
+    {% for cab in cabinets %}
+    {% if cab.num_cabinet !="000" %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/cabinet/{{cab.id}}" >ID: {{ cab.id }}</td></a>
+                <span>Номер кабинета: {{ cab.num_cabinet }}</span>
+            </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+    
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" %}
+    <td><a href="/pages/cabinets/create" >Добавить новую запись</td></a>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

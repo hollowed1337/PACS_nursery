@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+        let pg = {
+            people_id: document.getElementById("people_id").value,
+            group_id: document.getElementById("group_id").value
+        };
+        console.log(pg)
+        
+        let response = fetch('/people_group', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pg)
+        });
+        
+        window.location.href = "/pages/people_gs"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Группа <select id="group_id">
+            {% for group in groups %}
+            <option value="{{group.id}}">{{group.name}}</option>
+            {% endfor%}
+        </select></a>
+        <a>Воспитатель <select id="people_id">
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/people_g">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

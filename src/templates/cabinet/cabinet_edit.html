@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+        
+        let id = document.getElementById("cab_id").textContent
+        let cabinet = {
+            num_cabinet: document.getElementById("cab_num").value
+        };
+
+        let response = fetch(`/cab/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(cabinet)
+        });
+
+        window.location.href = `/pages/cabinet/${id}`
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<div>
+    <div>
+        <span hidden id="cab_id">{{cab.id}}</span>
+        <a>Номер кабинета: <input id="cab_num"class="text-lg" maxlength="3" value="{{cab.num_cabinet}}"></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/cabinet/{{cab_id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для изменения записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

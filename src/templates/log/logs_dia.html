@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    var options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      };
+    let date = new Date().getFullYear()
+    let dt_1 = new Date(date, 00, 01)
+    let dt = new Date(date, 00, 01)
+    let arr_date = []
+    arr_date.push(new Date(dt.setMonth(dt.getMonth() + 0)).toISOString())
+    for (i=1; i <=12; i++) {
+        arr_date.push(new Date(dt.setMonth(dt.getMonth() + 1)).toISOString())
+    }
+    start_date = []
+    end_date = []
+    for(i = 0; i < arr_date.length - 1; ++i) {
+        start_date.push(arr_date[i])
+    }
+    for (j = 1; j < arr_date.length; ++j) {
+        end_date.push(arr_date[j])
+    }
+
+    const forJan = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 0
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Jan", count)
+        }
+        while (iter < 0)
+    }
+
+    const forFeb = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 1 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Feb", count)
+        }
+    while (iter < 0)
+    }
+
+
+    const forMar = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 2 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Mar", count)
+        }
+        while (iter < 1)
+    }
+
+
+    const forApr = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 3 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Apr", count)
+        }
+        while (iter < 2)
+    }
+
+    const forMay = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 4 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("May", count)
+        }
+        while (iter < 3)
+    }
+
+
+    const forJun = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 5 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Jun", count)
+        }
+        while (iter < 4)
+    }
+
+    const forJul = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 6 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Jul", count)
+        }
+        while (iter < 5)
+    }
+
+    const forAug = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 7 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Aug", count)
+        }
+        while (iter < 6)
+    }
+
+    const forSep = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 8 
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Sep", count)
+        }
+        while (iter < 7)
+    }
+
+    const forOct = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 9
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Oct", count)
+        }
+        while (iter < 8)
+    }
+
+    const forNov = () => {
+        door_id = document.getElementById("door_id").value
+
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 10
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Nov", count)
+        }
+        while (iter < 9)
+    }
+
+    const forDec = () => {
+        door_id = document.getElementById("door_id").value
+        count = document.getElementById("count").textContent;
+        do {        
+            iter = 11
+            path = `/pages/logs/diagramm/child_door=${door_id}?start_dt=${start_date[iter]}&end_dt=${end_date[iter]}`;
+            window.location.href = path;
+            sessionStorage.setItem("Dec", count)
+        }
+        while (iter < 10)
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" or people.role.name == "Воспитатель" %}
+{% set count = [] %}
+<div class="flex justify-center flex-col items-center">
+    <p>Шкафчик <select id="door_id">
+        {% for kid in kids %}
+        {% if kid.door.id != 0 %}
+        <option value="{{kid.door.id}}">
+            {{kid.door.door_num}}
+        </option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    </p>
+    
+    <button onclick="forJan()">Посещаемость за январь текущего года</button>
+    <button onclick="forFeb()">Посещаемость за февваль текущего года</button>
+    <button onclick="forMar()">Посещаемость за март текущего года</button>
+    <button onclick="forApr()">Посещаемость за апрель текущего года</button>
+    <button onclick="forMay()">Посещаемость за май текущего года</button>
+    <button onclick="forJun()">Посещаемость за июнь текущего года</button>
+    <button onclick="forJul()">Посещаемость за июль текущего года</button>
+    <button onclick="forAug()">Посещаемость за август текущего года</button>
+    <button onclick="forSep()">Посещаемость за сентябрь текущего года</button>
+    <button onclick="forOct()">Посещаемость за октябрь текущего года</button>
+    <button onclick="forNov()">Посещаемость за ноябрь текущего года</button>
+    <button onclick="forDec()">Посещаемость за декабрь текущего года</button>
+
+    <canvas width="500" height="500" id="canvas"></canvas>
+    
+    {% for log in logs %}
+        {% for i in log.card.people.people_ch %}
+            {% set count = count.append(log) %}
+        {% endfor %}
+    {% endfor %}
+    <span id="count" hidden >{{count|length}}</span>
+</div>
+
+<style>
+    #canvas {
+        border: 1px solid black;
+    }
+</style>
+
+
+<script>
+let canvas = document.getElementById('canvas'); 
+let ctx = canvas.getContext('2d');
+
+ctx.fillStyle = "black";
+ctx.lineWidth = 2.0;
+ctx.beginPath();
+ctx.moveTo(30, 10)
+ctx.lineTo(30, 460);
+ctx.lineTo(500, 460); 
+ctx.stroke();
+
+
+ctx.fillStyle = "black";
+for(let i = 0; i < 6; i++) { 
+    ctx.fillText((5 - i) * 5 + "", 4, i * 80 + 60);
+    ctx.beginPath(); 
+    ctx.moveTo(25,  i*80 + 60);
+    ctx.lineTo(30, i*80 + 60);
+    ctx.stroke();
+}
+ 
+let labels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]; 
+ 
+for(var i=0; i<12; i++) { 
+    ctx.fillText(labels[i], 40+i*37, 485); 
+}
+
+let jan = sessionStorage.getItem("Jan"); 
+let feb = sessionStorage.getItem("Feb"); 
+let mar = sessionStorage.getItem("Mar"); 
+let apr = sessionStorage.getItem("Apr"); 
+let may = sessionStorage.getItem("May"); 
+let jun = sessionStorage.getItem("Jun"); 
+let jul = sessionStorage.getItem("Jul"); 
+let aug = sessionStorage.getItem("Aug"); 
+let sep = sessionStorage.getItem("Sep"); 
+let oct = sessionStorage.getItem("Oct"); 
+let nov = sessionStorage.getItem("Nov"); 
+let dec = sessionStorage.getItem("Dec");
+let arr = [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+
+ctx.fillStyle = "green"; 
+for(var i=0; i<arr.length; i++) { 
+    var dp = arr[i]; 
+    ctx.fillRect(37 + i*37, 460-dp*16 , 20, dp*16); 
+}
+</script>
+{% elif auth.phone == people.phone and people.role.name != "Воспитатель" or people.role.name != "Администратор" %}
+<span>Недостаточно прав для просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

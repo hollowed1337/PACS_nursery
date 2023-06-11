@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+
+        let id = document.getElementById("kid_id").textContent     
+        let kid = {
+            name: document.getElementById("kid_name").value,
+            birth_date: document.getElementById("kid_birth").value,
+            group_id: document.getElementById("group_id").value,
+            door_id: document.getElementById("door_id").value
+        };
+        console.log(kid)
+
+        let response = fetch(`/child/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(kid)
+        });
+
+        window.location.href = `/pages/kid/${id}`
+
+
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="kid_id">{{kid.id}}</span>
+        <a>Имя: <input id="kid_name" class="text-lg" maxlength="25" value="{{kid.name}}"></a>
+        <p>Дата рождения: <input id="kid_birth" type="date" name="calendar" value="{{kid.birth_date}}"></p>
+        <a>Группа: <select id="group_id">
+            {% for group in groups%}
+            <option value="{{group.id}}">{{group.name}}</option>
+            {% endfor %}
+        </select></a>
+
+        <a>Шкафчик: <select id="door_id">
+            <option value="0">NULL</option>
+            {% for door in doors %}
+                    {% if door.type_door=="Шкафчик" and door.cabinet_id==kid.kid_group.cabinet_id  and door.door_num !="000" %}
+                    <option value="{{door.id}}">{{door.door_num}}</option>
+                    {% endif %}
+            {% endfor %}
+            </select></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/kid/{{kid.id}}">Отмена</a></td>
+</div>
+
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для изменения записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DoorBase(BaseModel):
 
-    door_num: str
+    door_num: str = Field(max_length=3)
+    type_door: str
     cabinet_id: int
 
 
@@ -13,7 +14,8 @@ class DoorCreate(DoorBase):
 
 class DoorUpdate(BaseModel):
 
-    door_num: str
+    door_num: str = Field(max_length=3)
+    type_door: str
 
 
 class Door(DoorBase):

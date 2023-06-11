@@ -17,12 +17,13 @@ def get_db():
 
 #Кабинет
 
-@rout.post("/cab", response_model=schem_Cabinet.Cabinet)
+@rout.post("/cab")
 async def create_cab(cab: schem_Cabinet.CabinetCreate, db: Session = Depends(get_db)):
 
     db_cab = cr_Cabinet.get_cab_by_num(db, num_cabinet=cab.num_cabinet)
     if db_cab:
         raise HTTPException(status_code=404, detail="Запись уже существует")
+    
     return cr_Cabinet.create_cab(db=db, cab=cab)
 
 @rout.get("/cab/{cab_id}", response_model=schem_Cabinet.Cabinet)
@@ -40,7 +41,7 @@ async def read_cabs(skip:int=0, limit:int=100, db: Session = Depends(get_db)):
     return cr_Cabinet.read_cabs(db, skip=skip, limit=limit)
 
 
-@rout.put("/cab/{cab_id}", response_model=schem_Cabinet.Cabinet)
+@rout.put("/cab/{cab_id}")
 async def edit_cab(cab: schem_Cabinet.CabinetUpdate, cab_id: int, db: Session = Depends(get_db)):
 
     db_cab = cr_Cabinet.get_cab(db, cab_id=cab_id)
@@ -53,7 +54,7 @@ async def edit_cab(cab: schem_Cabinet.CabinetUpdate, cab_id: int, db: Session = 
     
     return cr_Cabinet.update_cab(db, cab_id=cab_id, cab=cab)
 
-@rout.delete("/cab/{cab_id}", response_model=schem_Cabinet.Cabinet)
+@rout.delete("/cab/{cab_id}")
 async def delete_cab(cab_id: int, db: Session = Depends(get_db)):
 
     db_cab = cr_Cabinet.get_cab(db, cab_id=cab_id)

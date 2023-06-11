@@ -1,8 +1,8 @@
 """Init
 
-Revision ID: d33fdaa178e0
+Revision ID: 22d129e15e54
 Revises: 
-Create Date: 2023-03-29 12:24:49.844700
+Create Date: 2023-06-10 09:41:49.970163
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd33fdaa178e0'
+revision = '22d129e15e54'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,6 +34,7 @@ def upgrade() -> None:
     op.create_index(op.f('ix_roles_name'), 'roles', ['name'], unique=True)
     op.create_table('doors',
     sa.Column('door_num', sa.String(length=3), nullable=False),
+    sa.Column('type_door', sa.String(length=10), nullable=True),
     sa.Column('cabinet_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['cabinet_id'], ['cabinets.id'], ),
@@ -54,6 +55,7 @@ def upgrade() -> None:
     op.create_table('peoples',
     sa.Column('name', sa.String(length=50), nullable=True),
     sa.Column('phone', sa.String(length=11), nullable=True),
+    sa.Column('password', sa.String(length=100), nullable=True),
     sa.Column('role_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.CheckConstraint('role_id > 0'),
@@ -73,8 +75,8 @@ def upgrade() -> None:
     op.create_index(op.f('ix_readers_serial_num'), 'readers', ['serial_num'], unique=True)
     op.create_table('cards',
     sa.Column('code', sa.String(length=20), nullable=False),
-    sa.Column('activate_date', sa.DateTime(), nullable=True),
-    sa.Column('deactivate_date', sa.DateTime(), nullable=True),
+    sa.Column('activate_date', sa.Date(), nullable=True),
+    sa.Column('deactivate_date', sa.Date(), nullable=True),
     sa.Column('status', sa.Boolean(), nullable=True),
     sa.Column('people_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
@@ -89,8 +91,10 @@ def upgrade() -> None:
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('birth_date', sa.Date(), nullable=True),
     sa.Column('group_id', sa.Integer(), nullable=True),
+    sa.Column('door_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.CheckConstraint('group_id > 0'),
+    sa.ForeignKeyConstraint(['door_id'], ['doors.id'], ),
     sa.ForeignKeyConstraint(['group_id'], ['kid_groups.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -120,7 +124,7 @@ def upgrade() -> None:
     op.create_table('logs',
     sa.Column('id_reader', sa.Integer(), nullable=True),
     sa.Column('id_card', sa.Integer(), nullable=True),
-    sa.Column('date', sa.DateTime(), nullable=True),
+    sa.Column('date', sa.DateTime(timezone=6), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['id_card'], ['cards.id'], ),
     sa.ForeignKeyConstraint(['id_reader'], ['readers.id'], ),

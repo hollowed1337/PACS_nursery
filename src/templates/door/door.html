@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    <!--  
+    const EditPeople = () => {}
+    const DeletePeople = () => {}
+    -->
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Информация о двери</span>
+<div>
+    <div class="flex flex-col">
+        <span>Номер двери: {{ door.door_num }}</span>
+        <span>Тип двери: {{door.type_door}}</span>
+        {% if door.type_door == "Шкафчик" %}
+        <span>Шкафчик ребенка 
+        {% for i in door.child %}
+            {{i.name}}
+        {% endfor %}
+        </span>
+        {% endif %}
+        <span>Кабинет: {{ door.cabinet.num_cabinet }}</span>
+        <span>У каких людей есть доступ: 
+        {% for i in door.door_p %}
+            {{ i.people.name}}
+        {% endfor %}
+        </span>
+    </div>
+    <td><a class="btn btn-warning" href="/pages/door/edit/{{door.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/door/delete/{{door.id}}">Удалить</a></td>
+    <td><a href="/pages/doors">Вернуться к списку</a></td>
+</div>
+
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

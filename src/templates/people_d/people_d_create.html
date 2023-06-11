@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+        let pd = {
+            people_id: document.getElementById("people_id").value,
+            door_id: document.getElementById("door_id").value
+        };
+        console.log(pd)
+        
+        let response = fetch('/people_door', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pd)
+        });
+
+        window.location.href = `/pages/people_ds`
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Дверь <select id="door_id">
+            {% for door in doors %}
+            {% if door.door_num !="000" %}
+            <option value="{{door.id}}">{{door.door_num}}</option>
+            {% endif %}
+            {% endfor%}
+        </select></a>
+        <a>Человек <select id="people_id">
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/people_d">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

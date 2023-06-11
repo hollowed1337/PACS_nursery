@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Информация о роли</span>
+<div>
+    <div class="flex flex-col">
+        <span> Название: {{ role.name }}</span>
+        <span>Владельцы роли:
+        {% for i in role.people %}
+        <span>{{i.name}}</span>
+        {% endfor%}
+        </span>
+    </div>
+    <td><a class="btn btn-warning" href="/pages/role/edit/{{role.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/role/delete/{{role.id}}">Удалить</a>
+    <td><a href="/pages/roles">Вернуться к списку</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

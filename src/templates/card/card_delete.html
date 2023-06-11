@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationDelete = () => {
+        let id = document.getElementById("card_id").textContent
+        let card = {
+            id: document.getElementById("card_id").textContent
+        };
+
+        let response = fetch(`/card/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(card)
+        });
+
+        window.location.href = "/pages/cards"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Удаление записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="card_id">{{card.id}}</span>
+        <span>Владелец карты: {{ card.people.name }}</span>
+        <span>Код карты: {{ card.code }}</span>
+        <span>Дата активации: {{card.activate_date}}</span>
+        <span>Дата деактивации: {{card.deactivate_date}}</span>
+        <span>Статус: {{ card.status }}</span>
+    </div>
+    <button onclick="operationDelete()">Удалить</button>
+    <td><a class="btn btn-danger" href="/pages/card/{{card.id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

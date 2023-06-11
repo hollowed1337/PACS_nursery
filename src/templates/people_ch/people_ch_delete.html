@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationDelete = () => {
+        let id = document.getElementById("pch_id").textContent
+        let pch = {
+            id: document.getElementById("pch_id").textContent
+        };
+
+        let response = fetch(`/people_child/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pch)
+        });
+
+        window.location.href = "/pages/people_chs"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Удаление записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="pch_id">{{pch.id}}</span>
+        <span>Ребенок: {{ pch.child.name }}</span>
+        <span>Родитель: {{ pch.people.name }}</span>
+    </div>
+    <button onclick="operationDelete()">Удалить</button>
+    <td><a href="/pages/people_ch/{{pch.id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

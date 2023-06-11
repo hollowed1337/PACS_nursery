@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Человек-дверь</span>
+<div>
+    <div class="flex flex-col">
+        <span>Дверь: {{ pd.door.door_num}}</span>
+        <span>Человек: {{ pd.people.name}}</span>
+    </div>
+    <td><a class="btn btn-warning" href="/pages/people_d/edit/{{pd.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/people_d/delete/{{pd.id}}">Удалить</a>
+    <td><a href="/pages/people_ds">Вернуться к списку</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

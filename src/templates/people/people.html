@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    <!--  
+    const EditPeople = () => {}
+    const DeletePeople = () => {}
+    -->
+</script>
+{% endblock %}
+
+{% block content %}
+<span>Информация о человеке</span>
+<div>
+    <div class="flex flex-col">
+        <span> Имя: {{ people.name }}</span>
+        <span class="text-lg">Номер телефона: {{ people.phone }}</span>
+        <span class="text-lg">Роль: {{ people.role.name }}</span>
+    </div>
+    <td><a class="btn btn-warning" href="/pages/people/edit/{{people.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/people/delete/{{people.id}}">Удалить</a>
+    <td><a href="/pages/peoples">Вернуться к списку</a></td>
+</div>
+{% endblock %}

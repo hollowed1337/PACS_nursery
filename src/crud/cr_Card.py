@@ -12,24 +12,31 @@ def create_card(db: Session, card: schem_Card.CardCreate, people_id: int):
     db.add(db_card)
     db.commit()
     db.refresh(db_card)
-    return db_card
+    return {
+        "status": "Успешно создано",
+        "data": db_card
+        }
 
 
 def get_card(db: Session, card_id: int):
 
     return db.query(BaseModel.Card).filter(BaseModel.Card.id == card_id).first()
 
+
 def get_card_people(db: Session, people_id):
 
     return db.query(BaseModel.People).filter(BaseModel.People.id == people_id).first()
+
 
 def get_card_by_people(db: Session, people_id: int):
 
     return db.query(BaseModel.Card).filter(BaseModel.Card.people_id == people_id).all()
 
+
 def get_card_by_code(db: Session, code: int):
 
     return db.query(BaseModel.Card).filter(BaseModel.Card.code == code).first()
+
 
 def read_cards(db:Session, skip:int = 0, limit:int = 100):
 
@@ -38,10 +45,14 @@ def read_cards(db:Session, skip:int = 0, limit:int = 100):
 
 def delete_card(db:Session, card_id:int):
     
-    card = db.query(BaseModel.Card).filter(BaseModel.Card.id == card_id).first()
-    db.delete(card)
+    db_card = db.query(BaseModel.Card).filter(BaseModel.Card.id == card_id).first()
+    db.delete(db_card)
     db.commit()
-    return card
+    return {
+        "status": f"Запись {card_id} удалена",
+        "data": db_card
+        }
+
 
 def update_card(db: Session, card_id: int, card: schem_Card.CardUpdate):
     
@@ -53,7 +64,10 @@ def update_card(db: Session, card_id: int, card: schem_Card.CardUpdate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Card).filter(BaseModel.Card.id == card_id).first()
+    return {
+        "status": f"Запись {card_id} изменена",
+        "data" : db.query(BaseModel.Card).filter(BaseModel.Card.id == card_id).first()
+        }
 
 
 def date(db: Session, card: schem_Card.CardUpdate):

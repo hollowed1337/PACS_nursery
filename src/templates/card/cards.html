@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const CardByPeople = () => {
+        people_id = document.getElementById("sort").value
+
+        if (people_id != "/pages/cards") {
+            path =  `/pages/cards/people=${people_id}`
+        }
+        else if (people_id = "/pages/cards") {
+            path = people_id
+        }
+
+        console.log(path)
+        window.location.href = path
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<div class="flex justify-center flex-col items-center">
+    <span>Список карт</span>
+    <button onclick="CardByPeople()">Сортировка по владельцам
+        <select id="sort">
+            <option value="/pages/cards">Показать всех</option>
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor %}
+        </select>
+    </button>
+    {% for card in cards %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/card/{{card.id}}">ID: {{card.id}}</a></td>
+                <span>Владелец карты: {{ card.people.name }}</span>
+                <span class="text-lg">Код карты: {{ card.code }}</span>
+                <span class="text-lg">Статус: {{ card.status }}</span>
+            </div>
+        </div>
+    {% endfor %}
+    <td><a href="/pages/cards/create" >Добавить новую запись</td></a>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

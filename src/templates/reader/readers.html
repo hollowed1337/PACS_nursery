@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<div class="flex justify-center flex-col items-center">
+    <span>Считыватели</span>
+    {% for reader in readers %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/reader/{{reader.id}}" >ID: {{ reader.id }}</td></a>
+                <span>Номер считывателя: {{ reader.serial_num }}</span>
+            </div>
+        </div>
+    {% endfor %}
+    <td><a href="/pages/readers/create" >Добавить новую запись</td></a>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

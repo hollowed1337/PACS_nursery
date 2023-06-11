@@ -16,7 +16,7 @@ def get_db():
 
 # #Человек-дверь
 
-@rout.post("/people_door", response_model=schem_People_Door.PD)
+@rout.post("/people_door")
 async def create_PD(pd: schem_People_Door.PDCreate, db: Session = Depends(get_db)):
 
     db_PD_by_people = cr_People_Door.get_PD_people(db, people_id=pd.people_id)
@@ -70,7 +70,7 @@ async def read_people_doors(skip:int=0, limit:int=100, db: Session = Depends(get
     return cr_People_Door.read_PDs(db, skip=skip, limit=limit)
 
 
-@rout.put("/people_door/{people_door_id}", response_model=schem_People_Door.PD)
+@rout.put("/people_door/{people_door_id}")
 async def edit_people_door(pd: schem_People_Door.PDUpdate, people_door_id, db: Session = Depends(get_db)):
 
     db_PD = cr_People_Door.get_PD(db, PD_id=people_door_id)
@@ -93,7 +93,7 @@ async def edit_people_door(pd: schem_People_Door.PDUpdate, people_door_id, db: S
     
     return cr_People_Door.update_PD(db, pd=pd, PD_id=people_door_id)
 
-@rout.delete("/people_door/{people_door_id}", response_model=schem_People_Door.PD)
+@rout.delete("/people_door/{people_door_id}")
 async def delete_people_door(people_door_id: int, db: Session = Depends(get_db)):
 
     db_people_door = cr_People_Door.get_PD(db, PD_id=people_door_id)

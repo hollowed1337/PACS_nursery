@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationGetAccess = () => {
+        let card_id = document.getElementById("card_id").textContent
+        let reader_id = document.getElementById("reader_id").textContent
+
+        document.getElementById("qwe").innerText = card_id
+        console.log(card_id, reader_id)
+    }
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<span class="pl-6" >Журнал</span>
+<div class="flex pl-6 rounded-3s">
+    <div class="flex flex-col">    
+        <td><a>ID: {{log.id}}</a></td> <hr>
+        <span>Владелец карты: {{log.card.people.name}}</span><hr>
+        <span>Роль: {{log.card.people.role.name}}</span><hr>
+        <span type="datetime-local">Дата:  {{log.date}}</span><hr>
+        {% if log.card.people.role.name == "Родитель" %}
+        <td class="hr">Дети:
+            {% for i in log.card.people.people_ch %}
+            <span class="pl-6" id="kid_id">{{i.child.name}} (группа: "{{i.child.kid_group.name}}", шкафчик {{i.child.door.door_num}})";</span>
+            {% endfor %}
+        </td><hr>
+        <span>Двери, которые были открыты:
+            {% for pd in log.card.people.door_p %}
+                {% for i in log.reader.cabinet.door %}
+                    {% if pd.door.id == i.id%}
+                    <span>{{pd.door.door_num}}</span>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </span><hr>
+        {% elif log.card.people.role.name == "Воспитатель" %}
+        <span>Группы:
+            {% for i in log.card.people.group_p %}
+            <a id="group_id" href="/pages/group/{{i.kid_group.id}}">{{i.kid_group.name}};</a>
+            {% endfor %}
+        </span><hr>
+        {% endif %}
+
+        <span hidden id="card_id">{{ log.id_card }}</span><hr>
+        <span hidden id="reader_id">{{ log.id_reader }}</span><hr>
+    </div>
+    <td><a href="/pages/logs">Вернуться к списку</a></td>
+</div>
+{% endblock %}

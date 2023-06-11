@@ -18,7 +18,7 @@ def get_db():
 
 #Человек-ребенок
 
-@rout.post("/people_child", response_model=schem_People_Child.PCh)
+@rout.post("/people_child")
 async def create_PCh(pch: schem_People_Child.PChCreate, db: Session = Depends(get_db)):
 
 
@@ -72,7 +72,7 @@ async def read_people_childs(skip:int=0, limit:int=100, db: Session = Depends(ge
     return cr_People_Child.read_PChs(db, skip=skip, limit=limit)
 
 
-@rout.put("/people_child/{people_child_id}", response_model=schem_People_Child.PCh)
+@rout.put("/people_child/{people_child_id}")
 async def edit_people_child(pch: schem_People_Child.PChUpdate, people_child_id, db: Session = Depends(get_db)):
 
     db_PCh = cr_People_Child.get_PCh(db, people_child_id=people_child_id)
@@ -93,7 +93,7 @@ async def edit_people_child(pch: schem_People_Child.PChUpdate, people_child_id, 
     
     return cr_People_Child.update_PCh(db=db, pch=pch, people_child_id=people_child_id)
 
-@rout.delete("/people_child/{people_child_id}", response_model=schem_People_Child.PCh)
+@rout.delete("/people_child/{people_child_id}")
 async def delete_people_child(people_child_id: int, db: Session = Depends(get_db)):
 
     db_people_child = cr_People_Child.get_PCh(db, people_child_id=people_child_id)

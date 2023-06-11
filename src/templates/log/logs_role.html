@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+<meta http-equiv="Refresh" content="60"/>
+<script>
+    const BetweenTime = () => {
+
+        start_dt = document.getElementById("start_dt").value
+        end_dt = document.getElementById("end_dt").value
+        path = `/pages/logs_between?start_td=${start_dt}&end_dt=${end_dt}`
+        console.log(start_dt, end_dt)
+        window.location.href = path
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    <span>Журнал по роли</span>
+    <button onclick="BetweenTime()">Сортировка по дате</button>
+    <p>Начальная дата: <input id="start_dt" type="datetime-local"></p>
+    <p>Конечная дата: <input id="end_dt" type="datetime-local"></p>
+    {% for log in logs %}
+    {% if log.card.people.role.name=="Родитель" %}
+    <div class="flex rounded-3 border-2 p-3 mt-5">
+        <div class="flex flex-col">    
+            <td><a href="/pages/log/{{log.id}}">ID: {{log.id}}</a></td>
+            <span>Карта: {{ log.id_card }}</span>
+            <span class="text-lg">Считыватель: {{ log.id_reader }}</span>
+            <span type="datetime-local">Дата:  {{log.date}}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

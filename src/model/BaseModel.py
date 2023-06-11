@@ -17,9 +17,9 @@ class People(BaseModel):
     __table_args__ = (
         CheckConstraint('role_id > 0'),
         )
-    #CONSTRAINT chk_phone CHECK (phone like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
     name = Column(String(50), nullable=True)
     phone = Column(String(11), unique=True, index=True, nullable=True)
+    password = Column(String(100))
     role_id = Column(Integer, ForeignKey("roles.id"))
 
     role = relationship("Role", back_populates="people")
@@ -36,8 +36,8 @@ class Card(BaseModel):
         CheckConstraint('people_id > 0'),
     )
     code = Column(String(20), unique=True, index=True, nullable=False)
-    activate_date = Column(DateTime)
-    deactivate_date = Column(DateTime)
+    activate_date = Column(Date)
+    deactivate_date = Column(Date)
     status = Column(Boolean, default=False)
     people_id = Column(Integer, ForeignKey("peoples.id"))
 
@@ -62,9 +62,11 @@ class Child(BaseModel):
     name = Column(String(50), nullable=False)
     birth_date = Column(Date)
     group_id = Column(Integer, ForeignKey("kid_groups.id"))
+    door_id = Column(Integer, ForeignKey("doors.id"))
 
     kid_group = relationship("Kid_group", back_populates="child")
     people_ch = relationship("People_Child", back_populates="child")
+    door = relationship("Door", back_populates="child")
 
 #6
 class Kid_group(BaseModel):
@@ -95,10 +97,12 @@ class Door(BaseModel):
     __tablename__ = "doors"
 
     door_num = Column(String(3), unique=True, index=True, nullable=False)
+    type_door = Column(String(10))
     cabinet_id = Column(Integer, ForeignKey("cabinets.id"))
 
     door_p = relationship("Door_People", back_populates="door")
     cabinet = relationship("Cabinet", back_populates="door")
+    child = relationship("Child", back_populates="door")
 
 class Reader(BaseModel):
     __tablename__ = "readers"
@@ -115,7 +119,7 @@ class Log(BaseModel):
 
     id_reader = Column(Integer, ForeignKey("readers.id"))
     id_card = Column(Integer, ForeignKey("cards.id"))
-    date = Column(DateTime)
+    date = Column(DateTime(6))
 
     reader = relationship("Reader", back_populates="log")
     card = relationship("Card", back_populates="log")

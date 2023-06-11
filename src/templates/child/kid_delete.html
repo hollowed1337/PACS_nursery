@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationDelete = () => {
+        let id = document.getElementById("kid_id").textContent
+        let kid = {
+            id: document.getElementById("kid_id").textContent
+        };
+
+        let response = fetch(`/child/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(kid)
+        });
+
+        window.location.href = "/pages/kids"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Удаление записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="kid_id">{{kid.id}}</span>
+        <span>Имя: {{kid.name}}</span>
+        <span class="text-lg">Дата рождения: {{ kid.birth_date }}</span>
+        <span class="text-lg">Группа: {{ kid.kid_group.name }}</span>
+        <span>Шкафчик         
+            {% if kid.door.door_num != "000"%}
+            {{kid.door.door_num}}
+            {% endif %}
+        </span>
+    </div>
+    <button onclick="operationDelete()">Удалить</button>
+    <td><a class="btn btn-danger" href="/pages/kid/{{kid.id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

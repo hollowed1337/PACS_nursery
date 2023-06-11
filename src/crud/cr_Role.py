@@ -8,7 +8,10 @@ def create_role(db: Session, role: schem_Role.RoleCreate):
     db.add(db_role)
     db.commit()
     db.refresh(db_role)
-    return db_role
+    return {
+        "status": "Успешно создано",
+        "data": db_role
+        }
 
 
 def get_role(db: Session, role_id: int):
@@ -32,13 +35,19 @@ def update_role(db: Session, role_id: int, role: schem_Role.RoleUpdate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Role).filter(BaseModel.Role.id == role_id).first()
+    return {
+        "status": f"Запись {role_id} изменена",
+        "data" : db.query(BaseModel.Role).filter(BaseModel.Role.id == role_id).first()
+        } 
     
     
 def delete_role(db: Session, role_id: int):
 
-    role = db.query(BaseModel.Role).filter(BaseModel.Role.id == role_id).first()
-    db.delete(role)
+    db_role = db.query(BaseModel.Role).filter(BaseModel.Role.id == role_id).first()
+    db.delete(db_role)
     db.commit()
-    return role
+    return {
+        "status": f"Запись {role_id} удалена",
+        "data": db_role
+        }
     

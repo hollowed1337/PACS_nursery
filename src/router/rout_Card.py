@@ -17,7 +17,7 @@ def get_db():
 
 #Карта
 
-@rout.post("/card", response_model=schem_Card.Card)
+@rout.post("/card")
 async def create_card(card: schem_Card.CardCreate, db: Session = Depends(get_db)):
 
     db_card = cr_Card.get_card_by_code(db, code=card.code)
@@ -30,7 +30,7 @@ async def create_card(card: schem_Card.CardCreate, db: Session = Depends(get_db)
 
     return cr_Card.create_card(db=db, card=card, people_id = card.people_id)
 
-@rout.delete("/card/{card_id}", response_model=schem_Card.Card)
+@rout.delete("/card/{card_id}")
 def delete_card(card_id: int, db: Session = Depends(get_db)):
 
     cards = cr_Card.get_card(db, card_id=card_id)
@@ -38,7 +38,7 @@ def delete_card(card_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Невозможно удалить несуществующую запись")
     return cr_Card.delete_card(db, card_id=card_id)
 
-@rout.put("/card/{card_id}", response_model= schem_Card.Card)
+@rout.put("/card/{card_id}")
 def edit_card(card: schem_Card.CardUpdate, card_id: int, db: Session = Depends(get_db)):
 
     cards = cr_Card.get_card(db, card_id=card_id)
@@ -59,7 +59,7 @@ async def get_card(card_id:int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Записи не существует")
     return db_card
 
-@rout.get("/card/people/{people_id}", response_model=list[schem_Card.Card])
+@rout.get("/cards?people={people_id}", response_model=list[schem_Card.Card])
 def read_cards_by_people_id(people_id: int, db: Session = Depends(get_db)):
 
     cards = cr_Card.get_card_by_people(db, people_id=people_id)

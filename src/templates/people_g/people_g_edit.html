@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+
+        id = document.getElementById("pg_id").textContent
+        let pg = {
+            people_id: document.getElementById("people_id").value,
+            group_id: document.getElementById("group_id").value
+        };
+        console.log(pg)
+        
+        let response = fetch(`/people_group/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pg)
+        });
+
+        window.location.href = `/pages/people_g/${id}`
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="pg_id">{{pg.id}}</span>
+        <a>Группа <select id="group_id">
+            {% for group in groups %}
+            <option value="{{group.id}}">{{group.name}}</option>
+            {% endfor%}
+        </select></a>
+        <a>Воспитатель <select id="people_id">
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/people_g/{{people_g_id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

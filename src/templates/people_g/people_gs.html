@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<div class="flex justify-center flex-col items-center">
+    <span>Группа-воспитатель</span>
+    {% for pg in pgs %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/people_g/{{pg.id}}" >ID: {{ pg.id }}</td></a>
+                <span> Группа: {{ pg.kid_group.name }}</span>
+                <span> Человек: {{ pg.people.name }}</span>
+            </div>
+        </div>
+    {% endfor %}
+    <td><a href="/pages/people_gs/create" >Добавить новую запись</td></a>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

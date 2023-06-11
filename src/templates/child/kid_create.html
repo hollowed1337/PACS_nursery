@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationCreate = () => {   
+        let kid = {
+            name: document.getElementById("kid_name").value,
+            birth_date: document.getElementById("kid_birth").value,
+            group_id: document.getElementById("group_id").value
+        };
+
+        let response = fetch(`/child/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(kid)
+        });
+
+        window.location.href = `/pages/kids`
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Имя: <input id="kid_name" class="text-lg" maxlength="25" placeholder="Валирия Максимовна"></a>
+        <p>Дата рождения: <input id="kid_birth" type="date" name="calendar"></p>
+        <a>Группа: <select id="group_id">
+            {% for group in groups%}
+            <option value="{{group.id}}">{{group.name}}</option>
+            {% endfor %}
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/kids">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для создания записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

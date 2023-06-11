@@ -10,7 +10,10 @@ def create_PCh(db: Session, people_id: int, child_id: int):
     db.add(db_PCh)
     db.commit()
     db.refresh(db_PCh)
-    return db_PCh
+    return {
+        "status": "Успешно создано",
+        "data": db_PCh
+        }
 
 
 def get_PCh(db: Session, people_child_id: int):
@@ -55,11 +58,17 @@ def update_PCh(db: Session, people_child_id: int, pch: schem_People_Child.PChCre
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.People_Child).filter(BaseModel.People_Child.id == people_child_id).first()
+    return {
+        "status": f"Запись {people_child_id} изменена",
+        "data" : db.query(BaseModel.People_Child).filter(BaseModel.People_Child.id == people_child_id).first()
+        } 
 
 def delete_PCh(db: Session, people_child_id: int):
 
     db_PCh = db.query(BaseModel.People_Child).filter(BaseModel.People_Child.id == people_child_id).first()
     db.delete(db_PCh)
     db.commit()
-    return db_PCh
+    return {
+        "status": f"Запись {people_child_id} удалена",
+        "data": db_PCh
+        }

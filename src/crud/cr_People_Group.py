@@ -10,7 +10,10 @@ def create_PG(db: Session, people_id: int, group_id: int):
     db.add(db_PG)
     db.commit()
     db.refresh(db_PG)
-    return db_PG
+    return {
+        "status": "Успешно создано",
+        "data": db_PG
+        }
 
 
 def get_PG(db: Session, PG_id: int):
@@ -55,11 +58,17 @@ def update_PG(db: Session, PG_id: int, pg: schem_People_Group.PGUpdate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Group_People).filter(BaseModel.Group_People.id == PG_id).first()
+    return {
+        "status": f"Запись {PG_id} изменена",
+        "data" : db.query(BaseModel.Group_People).filter(BaseModel.Group_People.id == PG_id).first()
+        } 
 
 def delete_PG(db: Session, PG_id: int):
 
     db_PG = db.query(BaseModel.Group_People).filter(BaseModel.Group_People.id == PG_id).first()
     db.delete(db_PG)
     db.commit()
-    return db_PG
+    return {
+        "status": f"Запись {PG_id} удалена",
+        "data": db_PG
+        }

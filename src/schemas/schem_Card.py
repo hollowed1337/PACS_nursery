@@ -1,10 +1,10 @@
-from pydantic import BaseModel
-from datetime import datetime
+from pydantic import BaseModel, Field
+from datetime import date
 
 class CardBase(BaseModel):
 
     people_id: int
-    code: str
+    code: str = Field(max_length=8)
     status: bool
 
 
@@ -14,14 +14,14 @@ class CardCreate(CardBase):
 
 class CardUpdate(BaseModel):
 
-    activate_date: datetime
-    deactivate_date: datetime
+    activate_date: date
+    deactivate_date: date
     status: bool
 
 class Card(CardBase):
 
-    activate_date: datetime
-    deactivate_date: datetime
+    activate_date: date
+    deactivate_date: date
     id: int
 
     class Config:

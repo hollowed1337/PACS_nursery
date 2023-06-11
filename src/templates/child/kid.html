@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<span>Информация о ребенке</span>
+<div>
+    <div class="flex flex-col">
+        <span>Имя: {{kid.name}}</span>
+        <span class="text-lg">Дата рождения: {{ kid.birth_date }}</span>
+        <span class="text-lg">Группа: {{ kid.kid_group.name }}</span>
+
+        <span>Шкафчик         
+            {% if kid.door.door_num != "000"%}
+            {{kid.door.door_num}}
+            {% endif %}
+        </span>
+    </div>
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" %}
+    <td><a class="btn btn-warning" href="/pages/kid/edit/{{kid.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/kid/delete/{{kid.id}}">Удалить</a>
+    <td><a href="/pages/kids">Вернуться к списку</a></td>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

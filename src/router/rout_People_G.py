@@ -17,7 +17,7 @@ def get_db():
 
 #Человек-группа
 
-@rout.post("/people_group", response_model=schem_People_Group.PG)
+@rout.post("/people_group")
 async def create_PG(pg: schem_People_Group.PGCreate, db: Session = Depends(get_db)):
 
 
@@ -48,7 +48,7 @@ async def get_people_group(people_group_id: int, db: Session = Depends(get_db)):
 
 
 @rout.get("/people_group/people/{people_id}", response_model=list[schem_People_Group.PG])
-async def get_people_child_by_p(people_id: int, db: Session = Depends(get_db)):
+async def get_people_group_by_p(people_id: int, db: Session = Depends(get_db)):
 
     db_people_group = cr_People_Group.get_PG_by_people(db, people_id=people_id)
     if not db_people_group:
@@ -72,7 +72,7 @@ async def read_people_groups(skip:int=0, limit:int=100, db: Session = Depends(ge
     return cr_People_Group.read_PGs(db, skip=skip, limit=limit)
 
 
-@rout.put("/people_group/{people_group_id}", response_model=schem_People_Group.PG)
+@rout.put("/people_group/{people_group_id}")
 async def edit_people_child(pg: schem_People_Group.PGUpdate, people_group_id, db: Session = Depends(get_db)):
 
 
@@ -99,7 +99,7 @@ async def edit_people_child(pg: schem_People_Group.PGUpdate, people_group_id, db
     
     return cr_People_Group.update_PG(db=db, pg=pg, PG_id=people_group_id)
 
-@rout.delete("/people_group/{people_group_id}", response_model=schem_People_Group.PG)
+@rout.delete("/people_group/{people_group_id}")
 async def delete_people_group(people_group_id: int, db: Session = Depends(get_db)):
 
     db_people_group = cr_People_Group.get_PG(db, PG_id=people_group_id)

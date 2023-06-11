@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationDelete = () => {
+        let id = document.getElementById("cab_id").textContent
+        let cabinet = {
+            id: document.getElementById("cab_id").textContent
+        };
+
+        let response = fetch(`/cab/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(cabinet)
+        });
+
+        window.location.href = "/pages/cabinets"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Удаление записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="cab_id">{{cab.id}}</span>
+        <span>Номер кабинета: {{cab.num_cabinet}} </span>
+        <span>Группы: {{cab.kid_group}}</span>
+        <span>Двери: {{cab.door}}</span>
+    </div>
+    <button onclick="operationDelete()">Удалить</button>
+    <td><a href="/pages/cabinet/{{cab.id}}">Отменить</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

@@ -8,7 +8,10 @@ def create_cab(db: Session, cab: schem_Cabinet.CabinetCreate):
     db.add(db_cab)
     db.commit()
     db.refresh(db_cab)
-    return db_cab
+    return {
+        "status": "Запись создана",
+        "data": db_cab
+        }
 
 
 def get_cab(db: Session, cab_id: int):
@@ -34,12 +37,18 @@ def update_cab(db: Session, cab_id: int, cab: schem_Cabinet.CabinetUpdate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Cabinet).filter(BaseModel.Cabinet.id == cab_id).first()
+    return {
+        "status": "Запись изменена",
+        "data": db.query(BaseModel.Cabinet).filter(BaseModel.Cabinet.id == cab_id).first()
+        }
+
 
 def delete_cab(db: Session, cab_id: int):
 
     db_cab = db.query(BaseModel.Cabinet).filter(BaseModel.Cabinet.id == cab_id).first()
     db.delete(db_cab)
     db.commit()
-    return db_cab
+    return {
+        "status": "Запись удалена",
+        "data": db_cab}
     

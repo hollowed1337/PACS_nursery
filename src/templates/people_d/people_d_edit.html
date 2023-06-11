@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+
+        id = document.getElementById("pd_id").textContent
+        let pd = {
+            people_id: document.getElementById("people_id").value,
+            door_id: document.getElementById("door_id").value
+        };
+        console.log(pd)
+        
+        let response = fetch(`/people_door/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pd)
+        });
+
+        window.location.href = `/pages/people_d/${id}`
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="pd_id">{{pd.id}}</span>
+        <a>Дверь <select id="door_id">
+            {% for door in doors %}
+            {% if door.door_num !="000" %}
+            <option value="{{door.id}}">{{door.door_num}}</option>
+            {% endif %}
+            {% endfor%}
+        </select></a>
+        <a>Человек <select id="people_id">
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/people_ch/{{people_ch_id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав просмотра данной страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

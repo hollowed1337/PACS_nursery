@@ -9,7 +9,10 @@ def create_PD(db: Session, people_id: int, door_id: int):
     db.add(db_PD)
     db.commit()
     db.refresh(db_PD)
-    return db_PD
+    return {
+        "status": "Успешно создано",
+        "data": db_PD
+        }
 
 
 def get_PD(db: Session, PD_id: int):
@@ -53,12 +56,18 @@ def update_PD(db: Session, PD_id: int, pd: schem_People_Door.PDCreate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Door_People).filter(BaseModel.Door_People.id == PD_id).first()
+    return {
+        "status": f"Запись {PD_id} изменена",
+        "data" : db.query(BaseModel.Door_People).filter(BaseModel.Door_People.id == PD_id).first()
+        } 
 
 def delete_PD(db: Session, PD_id: int):
 
-    pd = db.query(BaseModel.Door_People).filter(BaseModel.Door_People.id == PD_id).first()
-    db.delete(pd)
+    db_PD = db.query(BaseModel.Door_People).filter(BaseModel.Door_People.id == PD_id).first()
+    db.delete(db_PD)
     db.commit()
-    return pd
+    return {
+        "status": f"Запись {PD_id} удалена",
+        "data": db_PD
+        }
 

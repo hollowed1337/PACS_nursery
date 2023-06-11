@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+        let door = {
+            door_num: document.getElementById("door_num").value,
+            cabinet_id: document.getElementById("cab_id").value,
+            type_door: document.getElementById("type_door").value
+        };
+        console.log(door.cabinet_id)
+        let response = fetch('/door', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(door)
+        });
+        
+        window.location.href = `/pages/doors`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Номер двери: <input id="door_num" type="text" class="text-lg" maxlength="3" placeholder="001"></a>
+        <a>Кабинет: <select id="cab_id">
+            {% for cab in cabs %}
+            {% if cab.num_cabinet !="000" %}
+            <option value="{{cab.id}}">{{cab.num_cabinet}}</option>
+            {% endif %}
+            {% endfor %}
+        </select></a>
+
+        <a>Тип: <select id="type_door">
+            <option>Шкафчик</option>
+            <option>Дверь</option>
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/doors">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для создания записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

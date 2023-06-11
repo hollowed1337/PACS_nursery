@@ -17,7 +17,7 @@ def get_db():
 
 
 
-@rout.post("/reader", response_model=schem_Reader.Reader)
+@rout.post("/reader")
 def create_reader(reader: schem_Reader.ReaderCreate, db: Session = Depends(get_db)):
 
     db_reader_by_sernum = cr_Reader.get_reader_by_sernum(db, serial_num=reader.serial_num)

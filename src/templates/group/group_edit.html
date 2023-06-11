@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+
+        let id = document.getElementById("group_id").textContent     
+        let cabinet = {
+            name: document.getElementById("group_name").value,
+            cabinet_id: document.getElementById("cab_id").value
+        };
+        console.log(cabinet, id)
+        let response = fetch(`/group/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(cabinet)
+        });
+
+
+        window.location.href = `/pages/group/${id}`
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="group_id">{{group.id}}</span>
+        <a>Название: <input id="group_name" type="text" class="text-lg" maxlength="15" value="{{group.name}}"></a>
+        <a>Кабинет<select id="cab_id">
+            {% for cab in cabs %}
+            {% if cab.num_cabinet !="000" %}
+            <option value="{{cab.id}}">{{cab.num_cabinet}}</option>
+            {% endif %}
+            {% endfor %}
+        </select></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/group/{{group.id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для изменения записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

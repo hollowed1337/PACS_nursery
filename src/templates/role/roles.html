@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<div class="flex justify-center flex-col items-center">
+    <span>Список ролей</span>
+    {% for role in roles %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/role/{{role.id}}" >ID: {{ role.id }}</td></a>
+                <span> Название роли: {{ role.name }}</span>
+            </div>
+        </div>
+    {% endfor %}
+    <td><a href="/pages/roles/create" >Добавить новую запись</td></a>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

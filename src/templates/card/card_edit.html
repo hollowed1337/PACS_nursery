@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<script>
+    const operationEdit = () => {
+
+        let id = document.getElementById("card_id").textContent     
+        let card = {
+            activate_date: document.getElementById("activate").value,
+            deactivate_date: document.getElementById("deactivate").value,
+            status: document.getElementById("status").value,
+        };
+
+        let response = fetch(`/card/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(card)
+        });
+
+
+        window.location.href = `/pages/card/${id}`
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Изменение записи</span>
+<div>
+    <div class="flex flex-col">
+        <span hidden id="card_id">{{card.id}}</span>
+        <p>Дата активации: <input id="activate" type="date" name="calendar"></p>
+        <p>Дата деактивации: <input id="deactivate" type="date" name="calendar"></p>
+        <a>Статус<select id="status">
+            <option>True</option>
+            <option>False</option>
+        </select></a>
+    </div>
+    <button onclick="operationEdit()">Изменить</button>
+    <td><a class="btn btn-danger" href="/pages/card/{{card.id}}">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для изменения записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

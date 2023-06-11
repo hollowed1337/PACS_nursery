@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const ChildByGroup = () => {
+        group_id = document.getElementById("sort").value
+
+        if (group_id != "/pages/kids") {
+            path =  `/pages/kids/group=${group_id}`
+        }
+        else if (group_id = "/pages/kids") {
+            path = group_id
+        }
+
+        console.log(path)
+        window.location.href = path
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    <span>Список детей</span>
+    
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" or people.role.name == "Воспитатель" %}
+    <button onclick="ChildByGroup()">Сортировка по группам
+        <select id="sort">
+            <option value="/pages/kids">Все группы</option>
+            {% for group in groups %}
+            <option value="{{group.id}}">{{group.name}}</option>
+            {% endfor %}
+        </select>
+    </button>
+    {% endif %}
+    {% endfor %}
+
+    {% for kid in kids %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+            <div class="flex flex-col">
+                <td><a href="/pages/kid/{{kid.id}}">ID: {{ kid.id }}</td></a>
+                <span>Имя: {{kid.name}}</span>
+                <span class="text-lg">Дата рождения: {{ kid.birth_date }}</span>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" %}
+    <td><a href="/pages/kids/create" >Добавить новую запись</td></a>
+    {% endif %}
+    {% endfor %}
+
+</div>
+{% endblock %}

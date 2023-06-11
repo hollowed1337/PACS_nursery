@@ -9,7 +9,10 @@ def create_group(db: Session, group: schem_Group.GroupCreate, cabinet_id: int):
     db.add(db_group)
     db.commit()
     db.refresh(db_group)
-    return db_group
+    return {
+        "status": "Успешно создано",
+        "data": db_group
+        }
 
 
 def get_group(db: Session, group_id: int):
@@ -23,6 +26,10 @@ def get_group_by_name(db: Session, name: str):
 def get_group_by_cab(db: Session, cab_id: int):
 
     return db.query(BaseModel.Kid_group).filter(BaseModel.Kid_group.cabinet_id == cab_id).all()
+
+def get_group_by_cab_for_upd(db: Session, cab_id: int):
+
+    return db.query(BaseModel.Kid_group).filter(BaseModel.Kid_group.cabinet_id == cab_id).filter(BaseModel.Kid_group.cabinet_id != cab_id).all()
 
 def get_group_cab(db: Session, cab_id: int):
 
@@ -42,7 +49,10 @@ def update_group(db: Session,  group_id: int, group: schem_Group.GroupUpdate):
         }, synchronize_session="fetch"
     )
     db.commit()
-    return db.query(BaseModel.Kid_group).filter(BaseModel.Kid_group.id == group_id).first()
+    return {
+        "status": f"Запись {group_id} изменена",
+        "data" : db.query(BaseModel.Kid_group).filter(BaseModel.Kid_group.id == group_id).first()
+        }
 
 
 def delete_group(db: Session, group_id: int):
@@ -50,4 +60,7 @@ def delete_group(db: Session, group_id: int):
     db_group = db.query(BaseModel.Kid_group).filter(BaseModel.Kid_group.id == group_id).first()
     db.delete(db_group)
     db.commit()
-    return db_group
+    return {
+        "status": f"Запись {group_id} удалена",
+        "data": db_group
+        }

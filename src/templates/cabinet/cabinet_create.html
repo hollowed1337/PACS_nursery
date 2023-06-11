@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+        let cabinet = {
+            num_cabinet: document.getElementById("cab_num").value
+        };
+        
+        let response = fetch('/cab', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(cabinet)
+        });
+        
+        window.location.href = `/pages/cabinets`;
+    }
+</script>
+{% endblock %}
+
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div>
+        <a>Номер кабинета <input id="cab_num" type="text" class="text-lg" maxlength="3" placeholder="001"></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="/pages/cabinets">Вернуться к списку</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>У вас недостаточно прав для создания записей</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

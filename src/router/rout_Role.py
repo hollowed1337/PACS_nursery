@@ -15,7 +15,7 @@ def get_db():
         db.close()
 
 
-@rout.post("/role", response_model=schem_Role.Role)
+@rout.post("/role")
 async def create_role(role: schem_Role.RoleCreate, db: Session = Depends(get_db)):
     
     db_role = cr_Role.get_role_by_name(db, name=role.name)
@@ -38,7 +38,7 @@ async def read_roles(skip: int = 0, limit: int = 100, db: Session = Depends(get_
 
     return cr_Role.read_roles(db, skip=skip, limit=limit)
 
-@rout.put("/role/{role_id}", response_model=schem_Role.Role)
+@rout.put("/role/{role_id}")
 def edit_role(role: schem_Role.RoleUpdate, role_id: int, db: Session = Depends(get_db)):
 
     db_role = cr_Role.get_role_by_name(db, name=role.name)
@@ -51,7 +51,7 @@ def edit_role(role: schem_Role.RoleUpdate, role_id: int, db: Session = Depends(g
     return cr_Role.update_role(db, role_id=role_id, role=role)
 
 
-@rout.delete("/role/{role_id}", response_model= schem_Role.Role)
+@rout.delete("/role/{role_id}")
 def delete_role(role_id: int, db: Session = Depends(get_db)):
 
     db_role = cr_Role.get_role(db, role_id=role_id)

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const operationCreate = () => {
+        let pch = {
+            people_id: document.getElementById("people_id").value,
+            child_id: document.getElementById("kid_id").value
+        };
+        console.log(pch)
+        
+        let response = fetch('/people_child', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(pch)
+        });
+
+        window.location.href = "/pages/people_chs"
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<span>Добавление записи</span>
+<div>
+    <div class="flex flex-col">
+        <a>Ребенок <select id="kid_id">
+            {% for kid in kids %}
+            <option value="{{kid.id}}">{{kid.name}}</option>
+            {% endfor%}
+        </select></a>
+        <a>Родитель <select id="people_id">
+            {% for people in peoples %}
+            <option value="{{people.id}}">{{people.name}}</option>
+            {% endfor%}
+        </select></a>
+    </div>
+    <button onclick="operationCreate()">Создать</button>
+    <td><a class="btn btn-danger" href="http://0.0.0.0/pages/people_chs">Отмена</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для удаления</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

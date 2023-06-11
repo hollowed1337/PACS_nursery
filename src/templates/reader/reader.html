@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+</script>
+{% endblock %}
+
+{% block content %}
+{% for people in peoples %}
+{% if auth.phone == people.phone and people.role.name == "Администратор" %}
+<div class="flex justify-center flex-col items-center">
+    <span>Информация об считывателе</span>
+    <div class="flex rounded-3 border-2 p-3 mt-5">
+        <div class="flex flex-col">
+            <span>Номер считывателя: {{ reader.serial_num }}</span>
+            <span>Кабинет: {{reader.cabinet.num_cabinet}}</span>
+            {% for i in reader.cabinet.door %}
+            <span>Двери: {{i.door_num}}</span>
+            {% endfor %}
+        </div>
+    </div>
+    <td><a href="/pages/readers">Вернуться к списку</a></td>
+</div>
+{% elif auth.phone == people.phone and people.role.name != "Администратор" %}
+<span>Недостаточно прав для просмотра страницы</span>
+{% endif %}
+{% endfor %}
+{% endblock %}

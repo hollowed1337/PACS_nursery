@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+
+</script>
+{% endblock %}
+
+{% block content %}
+<h4>Информация о группе</h4 >
+<div>
+    <div class="flex flex-col">
+        <span>Название: {{ group.name }}</span>
+        <span>Кабинет: {{ group.cabinet.num_cabinet }}</span>
+        <span>Воспитатели:
+            {% for i in group.group_p %}
+                <span>{{i.people.name}}</span>
+            {% endfor%}
+        </span>
+    
+        {% for people in peoples %} 
+        {% if auth.phone == people.phone and (people.role.name == "Администратор" or people.role.name == "Воспитатель") %}
+            <span>Дети:     
+            {% for i in group.child %}
+                <p>{{ i.name }}</p>
+            {% endfor %}
+            </span>
+            <td>Двери:
+            {% for i in group.cabinet.door %}
+            {% if i.type_door == "Входная" %}
+            <span>входная {{i.door_num}}</span>
+            {% elif i.type_door =="Шкафчик" %}
+            <span>шкафчик {{i.door_num}}</span>
+            {% endif %}
+            {% endfor %}
+            </td>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% for people in peoples %}
+    {% if auth.phone == people.phone and people.role.name == "Администратор" %}
+    <td><a class="btn btn-warning" href="/pages/group/edit/{{group.id}}">Изменить</a></td>
+    <td><a class="btn btn-danger" href="/pages/group/delete/{{group.id}}">Удалить</a>
+    <td><a href="/pages/groups">Вернуться к списку</a></td>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
