@@ -33,7 +33,7 @@
         <a>Номер кабинета: <input id="cab_num"class="text-lg" maxlength="3" value="{{cab.num_cabinet}}"></a>
     </div>
     <button onclick="operationEdit()">Изменить</button>
-    <td><a class="btn btn-danger" href="/pages/cabinet/{{cab_id}}">Отмена</a></td>
+    <td><a class="btn btn-danger" href="/pages/cabinet/{{cab.id}}">Отмена</a></td>
 </div>
 {% elif auth.phone == people.phone and people.role.name != "Администратор" %}
 <span>У вас недостаточно прав для изменения записей</span>
