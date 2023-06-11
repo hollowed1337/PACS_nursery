@@ -1,25 +1,14 @@
-import psycopg2
+from connect_to_db import connect_to_batabase
 from psycopg2.extras import NamedTupleCursor
 from datetime import datetime
 
-#conn = psycopg2.connect('postgresql://${DB_USER}:${DB_PASSWD}localhost:5432/${DB_NAME}')
-
-try:
-    conn = psycopg2.connect(dbname='postgres', user='postgres', password='qwe', host='localhost')
-except:
-    print('Can`t establish connection to database')
-
-
-cursor = conn.cursor()
-
-# people_id = input()
-people_id = 2
-
+conn = connect_to_batabase()
 
 
 def get_information_by_card(card_id: int):
 
-    role_id = []
+    child_id = []
+    door_id = []
     door_id_card = []
     d_num = []
     with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
@@ -29,26 +18,37 @@ def get_information_by_card(card_id: int):
            print("Карты с таким ID не существует, введите другое значение")
         else:
             people_id = cards.people_id
-            with conn.cursor(cursor_factory=NamedTupleCursor) as curs: #ненужно
-                curs.execute(f'SELECT name, phone, role_id FROM peoples WHERE id={people_id}') #ненужно
-                peoples = curs.fetchall() #ненужно
+            with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
+                curs.execute(f'SELECT name, phone, role_id FROM peoples WHERE id={people_id}')
+                people = curs.fetchone()
+            with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
+                curs.execute(f'SELECT * FROM people_child WHERE id={people_id}')
+                childs = curs.fetchall()
+                for i in range(0, len(childs)):
+                    child_id.append(str(childs[i][0]))
             with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
                 curs.execute(f"SELECT door_id FROM door_people WHERE people_id={people_id}")
-                pd = curs.fetchall()
+                pd = curs.fetchall() #return [Record(door_id=N)]
                 for i in range(0, len(pd)):
-                    role_id.append(str(pd[i][0]))
+                    door_id.append(str(pd[i][0]))
                 
-                for id in role_id:
+                for id in door_id:
                     with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
                         curs.execute(f"SELECT * FROM doors WHERE id={id}")
                         door = curs.fetchall()
                         d_num.append(door[0].door_num)
                         door_id_card.append(door[0].id)
-                
+                #print(pd)
                 # print(f"Информация о человеке \nимя: {str(peoples[0].name)}, \nномер телефона:{str(peoples[0].phone)}, \nID роли: {str(peoples[0].role_id)}")
                 # print(f"Доступные человеку двери: {d_num}")
 
-    return door_id_card
+    #return door_id_card
+    return {
+        "Человек" : people,
+        "Двери, которые может он может открыть": door_id,
+        "Двери, к которым дан доступ": door_id_card,
+        "Дети" : child_id
+        }
 
 
 def get_infornation_by_reader(reader_id: int):
@@ -71,11 +71,14 @@ def get_infornation_by_reader(reader_id: int):
                         door_id_reader.append(door[i].id)
     return door_id_reader
 
-
+print("Введите ID карты")
 dc = input()
+print("Введите ID считывателя")
 dr = input()
 
-door_id_card = get_information_by_card(dc)
+print(get_information_by_card(dc))
+
+door_id_card = get_information_by_card(dc)["Двери, к которым дан доступ"]
 door_id_reader = get_infornation_by_reader(dr)
 
 
@@ -93,22 +96,7 @@ def access(door_id_c, door_id_r):
         print(f"access denied")
         return "нет доступных для открытия дверей"
     return ob
-print(access(door_id_card, door_id_reader))
+
+#print("ID дверей: " + str(access(door_id_card, door_id_reader)))
 
 
-
-
-def create_log(card_id: int, reader_id):
-
-    date = datetime.now()        
-    if len(card_id)==0 or len(reader_id)==0:
-        print("Данные отсутствуют")
-    else:
-        with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
-            curs.execute(f"INSERT INTO logs (id_reader, id_card, date) VALUES ('{reader_id}', '{card_id}', '{date}')"
-                         )
-        conn.commit()
-
-
-
-create_log(dc, dr)
