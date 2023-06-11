@@ -54,7 +54,7 @@ class Role(BaseModel):
 
 #4
 class Child(BaseModel):
-    __tablename__ = "kids"
+    __tablename__ = "childs"
     __table_args__ = (
         CheckConstraint('group_id > 0'),
     )
