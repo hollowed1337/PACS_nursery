@@ -43,7 +43,7 @@
         </select></a>
     </div>
     <button onclick="operationEdit()">Изменить</button>
-    <td><a class="btn btn-danger" href="/pages/people_ch/{{people_ch_id}}">Отмена</a></td>
+    <td><a class="btn btn-danger" href="/pages/people_ch/{{people_ch.id}}">Отмена</a></td>
 </div>
 {% elif auth.phone == people.phone and people.role.name != "Администратор" %}
 <span>У вас недостаточно прав для изменения записей</span>
