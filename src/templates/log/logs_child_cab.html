@@ -32,7 +32,7 @@
     <p>Конечная дата: <input id="end_dt" type="datetime-local"></p>
     <p>Шкафчик <select id="door_id">
         {% for kid in kids %}
-        {% if kid.door.id != 0 %}
+        {% if kid.door.door_num != "000" %}
         <option value="{{kid.door.id}}">
             {{kid.door.door_num}}
         </option>
