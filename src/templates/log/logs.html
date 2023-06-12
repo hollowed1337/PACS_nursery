@@ -34,11 +34,11 @@
     <button onclick="logByChildDoor()">Шкафчик 
         <select id="door_id">
         {% for kid in kids %}
-        {% if kid.door.door_num != "000" %}
-            <option value="{{kid.door.id}}">
-                {{kid.door.door_num}}
-            </option>
-        {% endif %}
+            {% if kid.door.door_num != "000" %}
+                <option value="{{kid.door.id}}">
+                    {{kid.door.door_num}}
+                </option>
+            {% endif %}
         {% endfor %}
         </select>
     </button>
