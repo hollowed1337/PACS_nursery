@@ -56,7 +56,7 @@ def read_logs_by_door(db: Session, door_id: int, start_dt: datetime, end_dt: dat
             "detail": "Стартовое время должно быть меньше"
         }
     else:
-        return db.query(BaseModel.Log).filter(BaseModel.Log.date >= start_dt).filter(BaseModel.Log.date <= end_dt).offset(skip).limit(limit).all()
+        return log.filter(BaseModel.Log.date >= start_dt).filter(BaseModel.Log.date <= end_dt).offset(skip).limit(limit).all()
 
     
     
