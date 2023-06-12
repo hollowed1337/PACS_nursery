@@ -17,8 +17,12 @@
         <span class="text-lg">Номер телефона: {{ people.phone }}</span>
         <span class="text-lg">Роль: {{ people.role.name }}</span>
     </div>
+    {% for ppl in peoples %}
+    {% if auth.phone == ppl.phone and ppl.role.name == "Администратор" %}
     <td><a class="btn btn-warning" href="/pages/people/edit/{{people.id}}">Изменить</a></td>
     <td><a class="btn btn-danger" href="/pages/people/delete/{{people.id}}">Удалить</a>
+    {% endif %}
+    {% endfor %}
     <td><a href="/pages/peoples">Вернуться к списку</a></td>
 </div>
 {% endblock %}
