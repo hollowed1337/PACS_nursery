@@ -1,0 +1,35 @@
+from alembic import op
+from sqlalchemy import orm
+
+from src.model.BaseModel import People, Role, Cabinet, Door
+
+# revision identifiers, used by Alembic.
+revision = 'first_data'
+down_revision = '22d129e15e54'
+branch_labels = None
+depends_on = None
+
+
+def upgrade() -> None:
+    bind = op.get_bind()
+    session = orm.Session(bind=bind)
+
+    admin = People(name='Евгений Александрович', phone="8005553535", password='qwerty', role_id=role_admin.id)
+    session.add_all([admin])
+    session.flush()
+
+    role_admin = Role(name='Администратор')
+    session.add_all([role_admin])
+    session.flush()
+    
+    null_cab = Cabinet(num_cabinet ="000")
+    session.add_all([null_cab])
+    session.flush()
+        
+    null_door = Door(door_num ="000", type_door ="null", cabinet_id = null_cab.id)
+    session.add_all([null_door])
+    session.commit()
+
+
+def downgrade() -> None:
+    pass
