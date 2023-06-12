@@ -25,6 +25,8 @@
 {% endblock %}
 
 {% block content %}
+{% for ppl in peoples %}
+{% if auth.phone == ppl.phone and ppl.role.name == "Администратор" %}
 <span>Изменение записи</span>
 <div>
     <div class="flex flex-col">
@@ -40,4 +42,8 @@
     <button onclick="operationEdit()">Изменить</button>
     <td><a class="btn btn-danger" href="/pages/people/{{people.id}}">Отмена</a></td>
 </div>
+{% elif auth.phone == ppl.phone and ppl.role.name != "Администратор" %}
+<span>У вас недостаточно прав для изменения записей</span>
+{% endif %}
+{% endfor %}
 {% endblock %}
