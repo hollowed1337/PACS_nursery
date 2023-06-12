@@ -54,4 +54,4 @@ def edit_people_page(request: Request, people = Depends(rout_People.get_people),
 @router.get("/people/delete/{people_id}")
 def delete_people_page(request: Request, people = Depends(rout_People.get_people), auth = Depends(akb_soc), peoples = Depends(rout_People.read_peoples)):
     
-    return templates_people.TemplateResponse("people_delete.html", {"request": request, "people": people["status"], "auth": auth, "peoples": peoples})
+    return templates_people.TemplateResponse("people_delete.html", {"request": request, "people": people, "auth": auth, "peoples": peoples})
