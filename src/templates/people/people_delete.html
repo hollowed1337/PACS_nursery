@@ -3,20 +3,20 @@
 {% block head %}
 <script>
     const operationDelete = () => {
-        let id = document.getElementById("pd_id").textContent
+        let id = document.getElementById("people_id").textContent
         let people = {
-            id: document.getElementById("pd_id").textContent
+            id: document.getElementById("people_id").textContent
         };
 
-        let response = fetch(`/group/${id}`, {
+        let response = fetch(`/people/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify(pd)
+            body: JSON.stringify(people)
         });
 
-        window.location.href = "/pages/cabinets"
+        window.location.href = "/pages/peoples"
     }
 </script>
 {% endblock %}
@@ -27,7 +27,7 @@
 <span>Удаление записи</span>
 <div>
     <div class="flex flex-col">
-        <span hidden id="pd_id">{{pd.id}}</span>
+        <span hidden id="people_id">{{people.id}}</span>
         <span>Имя: {{ people.name }}</span>
         <span class="text-lg">Номер телефона: {{ people.phone }}</span>
         <span class="text-lg">Роль: {{ people.role.name }}</span>
