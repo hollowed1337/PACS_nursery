@@ -38,7 +38,12 @@
             </div>
         </div>
     {% endfor %}
+    
+    {% for ppl in peoples %}
+    {% if auth.phone == ppl.phone and ppl.role.name == "Администратор" %}
     <td><a href="/pages/peoples/create" >Добавить новую запись</td></a>
+    {% endif %}
+    {% endfor %}
 </div>
 </tr>
 {% endblock %}
