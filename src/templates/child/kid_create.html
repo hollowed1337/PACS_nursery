@@ -29,7 +29,7 @@
 <div>
     <div class="flex flex-col">
         <a>Имя: <input id="kid_name" class="text-lg" maxlength="25" placeholder="Валирия Максимовна"></a>
-        <p>Дата рождения: <input id="kid_birth" type="date" name="calendar"></p>
+        <p>Дата рождения: <input id="kid_birth" type="date" name="calendar" placeholder="2023-01-01T00:00:00.000Z"></p>
         <a>Группа: <select id="group_id">
             {% for group in groups%}
             <option value="{{group.id}}">{{group.name}}</option>
