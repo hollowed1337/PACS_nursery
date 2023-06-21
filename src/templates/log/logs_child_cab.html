@@ -43,8 +43,8 @@
     <button onclick="BetweenTime()">Сортировать по времени и кабинету</button>
     <a href="/pages/logs">Перейти ко всем логам</a>
     {% for log in logs %}
-        {% for i in log.card %}
-        ?????{{i}}
+    <span>{{log.card}}</span>
+<!--         {% for i in log.card.people.people_ch %}
             {% set count = count.append(log) %}
             <div class="flex rounded-3 border-2 p-3 mt-5">
                 <div class="flex flex-col">    
@@ -54,7 +54,7 @@
                     <span type="datetime-local">Дата:  {{log.date}}</span>
                 </div>
             </div>
-        {% endfor %}
+        {% endfor %} -->
     {% endfor %}
     <span>Количество записей: {{count|length}}</span>
     <button onclick="toDiagramm()">Построить график посещаемости</button>
