@@ -26,7 +26,7 @@
 
 {% block content %}
 {% for people in peoples %}
-{% if auth.phone == people.phone and people.role.name == "Администратор" or people.role.name == "Воспитатель" %} 
+{% if auth.phone == people.phone and (people.role.name == "Администратор" or people.role.name == "Воспитатель") %} 
 <div class="flex justify-center flex-col items-center">
     <span>Журнал</span>
     <p>Начальная дата: <input id="start_dt" type="datetime-local" value="2023-01-01T00:00:00.000Z"></p>
