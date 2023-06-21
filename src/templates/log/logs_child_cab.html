@@ -56,7 +56,7 @@
     <span>Количество записей: {{count|length}}</span>
     <button onclick="toDiagramm()">Построить график посещаемости</button>
 </div>
-{% elif auth.phone == people.phone and people.role.name != "Воспитатель" or people.role.name != "Администратор" %}
+{% elif auth.phone == people.phone and (people.role.name != "Воспитатель" or people.role.name != "Администратор") %}
 <span>Недостаточно прав для просмотра данной страницы</span>
 {% endif %}
 {% endfor %}
