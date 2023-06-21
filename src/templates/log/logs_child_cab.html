@@ -43,19 +43,16 @@
     <button onclick="BetweenTime()">Сортировать по времени и кабинету</button>
     <a href="/pages/logs">Перейти ко всем логам</a>
     {% for log in logs %}
-    <span>{{log.card}}</span>
-<!--         {% for i in log.card.people.people_ch %}
-            {% set count = count.append(log) %}
-            <div class="flex rounded-3 border-2 p-3 mt-5">
-                <div class="flex flex-col">    
-                    <td><a href="/pages/log/{{log.id}}">ID: {{log.id}}</a></td>
-                    <span>Карта: {{ log.id_card }}</span>
-                    <span class="text-lg">Считыватель: {{ log.id_reader }}</span>
-                    <span type="datetime-local">Дата:  {{log.date}}</span>
-                </div>
+        {% set count = count.append(log) %}
+        <div class="flex rounded-3 border-2 p-3 mt-5">
+             <div class="flex flex-col">
+                <td><a href="/pages/log/{{log.id}}">ID: {{log.id}}</a></td>
+                <span>Карта: {{ log.id_card }}</span>
+                <span class="text-lg">Считыватель: {{ log.id_reader }}</span>
+                <span type="datetime-local">Дата: {{log.date}}</span>
             </div>
-        {% endfor %} -->
-    {% endfor %}
+        </div>
+     {% endfor %}
     <span>Количество записей: {{count|length}}</span>
     <button onclick="toDiagramm()">Построить график посещаемости</button>
 </div>
